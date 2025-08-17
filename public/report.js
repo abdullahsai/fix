@@ -445,7 +445,10 @@ async function downloadPdf(id) {
     const itemStartX = (doc.internal.pageSize.getWidth() - tableW) / 2;
 
     function drawItemRow(desc, cost, qty, total) {
-        const descLines = doc.splitTextToSize(desc, colWDesc - horizontalPad * 2);
+        // Preprocess the text to account for Arabic shaping so that
+        // splitTextToSize measures the same width that will be rendered.
+        const processed = doc.processArabic ? doc.processArabic(desc) : desc;
+        const descLines = doc.splitTextToSize(processed, colWDesc - horizontalPad * 2);
         const lines = Math.max(descLines.length, 1);
         const rowH = lines * lineH + verticalPad * 2;
         doc.rect(itemStartX, y, colWTotal, rowH);
@@ -458,7 +461,8 @@ async function downloadPdf(id) {
         doc.text(cost, itemStartX + colWTotal + colWQty + colWCost - horizontalPad, baseY, { align: 'right', baseline: 'middle' });
         descLines.forEach((ln, idx) => {
             const lineY = y + rowH / 2 + (idx - (descLines.length - 1) / 2) * lineH;
-            doc.text(ln, itemStartX + colWTotal + colWQty + colWCost + colWDesc - horizontalPad, lineY, { align: 'right', baseline: 'middle' });
+            // Pass isInputVisual=true so jsPDF doesn't modify the shaped text again
+            doc.text(ln, itemStartX + colWTotal + colWQty + colWCost + colWDesc - horizontalPad, lineY, { align: 'right', baseline: 'middle' }, 0, 0, true);
         });
         y += rowH;
     }
