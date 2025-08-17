@@ -56,8 +56,43 @@ async function saveAccuracy() {
     }
 }
 
+async function loadReports() {
+    try {
+        const res = await fetch('/api/report/all');
+        if (!res.ok) return;
+        const reports = await res.json();
+        const tbody = document.querySelector('#reportsTable tbody');
+        tbody.innerHTML = '';
+        reports.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.id}</td>
+                <td>${new Date(r.created_at).toLocaleString()}</td>
+                <td>${r.total.toFixed(2)}</td>
+                <td><button class="btn btn-sm btn-danger delete-btn" data-id="${r.id}">حذف</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('button.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('هل أنت متأكد من الحذف؟')) return;
+                const id = btn.dataset.id;
+                const resp = await fetch(`/api/report/${id}`, { method: 'DELETE' });
+                if (resp.ok) {
+                    btn.closest('tr').remove();
+                } else {
+                    alert('فشل الحذف');
+                }
+            });
+        });
+    } catch (e) {
+        console.warn('failed to load reports');
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     loadAccuracy();
+    loadReports();
     const btn = document.getElementById('saveAccuracyBtn');
     if (btn) btn.addEventListener('click', saveAccuracy);
 });

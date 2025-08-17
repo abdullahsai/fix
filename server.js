@@ -501,6 +501,32 @@ app.put('/api/report/:id', (req, res) => {
   });
 });
 
+// Delete a report and its associated data
+app.delete('/api/report/:id', (req, res) => {
+  const reportId = req.params.id;
+  db.serialize(() => {
+    db.run('DELETE FROM report_items WHERE report_id = ?', [reportId], err => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Failed to delete report items' });
+      }
+      db.run('DELETE FROM reports WHERE id = ?', [reportId], function (err2) {
+        if (err2) {
+          console.error(err2);
+          return res.status(500).json({ error: 'Failed to delete report' });
+        }
+        if (this.changes === 0) {
+          return res.status(404).json({ error: 'Report not found' });
+        }
+        const dir = path.join(filesDir, String(reportId));
+        fs.rm(dir, { recursive: true, force: true }, () => {
+          res.json({ success: true });
+        });
+      });
+    });
+  });
+});
+
 // Upload photos for a report
 app.post('/api/report/:id/photos', upload.array('images', 4), (req, res) => {
   const reportId = req.params.id;
