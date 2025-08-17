@@ -17,7 +17,7 @@ async function loadReports() {
         tr.innerHTML = `
             <td>${rep.id}</td>
             <td>${rep.total.toFixed(2)}</td>
-            <td>${new Date(rep.created_at).toLocaleString()}</td>
+            <td>${new Date(rep.created_at).toLocaleDateString('en-GB')}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary download-btn" data-id="${rep.id}">تنزيل PDF</button>
                 <button class="btn btn-sm btn-outline-secondary edit-btn" data-id="${rep.id}"><i class="bi bi-pencil"></i></button>

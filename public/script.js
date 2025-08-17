@@ -31,7 +31,7 @@ async function fetchItems(category = '') {
             <td>${item.description}</td>
             <td>${item.unit}</td>
             <td>${item.cost}</td>
-            <td>${new Date(item.created_at).toLocaleString()}</td>
+            <td>${new Date(item.created_at).toLocaleDateString('en-GB')}</td>
             <td>
                 <button class="btn btn-sm btn-link text-primary edit-btn"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-sm btn-link text-danger delete-btn"><i class="bi bi-x-lg"></i></button>
