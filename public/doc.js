@@ -18,7 +18,7 @@ async function loadReports() {
             <td>${rep.id}</td>
             <td>${rep.police_report || ''}</td>
             <td>${rep.total.toFixed(2)}</td>
-            <td>${new Date(rep.created_at).toLocaleDateString('en-GB')}</td>
+            <td>${new Date(rep.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' })}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary download-btn" data-id="${rep.id}">تنزيل PDF</button>
                 <button class="btn btn-sm btn-outline-secondary edit-btn" data-id="${rep.id}"><i class="bi bi-pencil"></i></button>

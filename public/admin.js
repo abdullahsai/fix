@@ -68,7 +68,7 @@ async function loadReports() {
             tr.innerHTML = `
                 <td>${r.id}</td>
                 <td>${r.police_report || ''}</td>
-                <td>${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
+                <td>${new Date(r.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' })}</td>
                 <td>${r.total.toFixed(2)}</td>
                 <td><button class="btn btn-sm btn-danger delete-btn" data-id="${r.id}">حذف</button></td>
             `;
