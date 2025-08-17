@@ -368,7 +368,7 @@ app.post('/api/report', (req, res) => {
 
 // Endpoint to get last 5 reports with totals
 app.get('/api/report', (req, res) => {
-  const query = `SELECT r.id, r.created_at,
+  const query = `SELECT r.id, r.police_report, r.created_at,
                         COALESCE(SUM(ri.quantity * ri.cost), 0) AS total
                    FROM reports r
                    LEFT JOIN report_items ri ON ri.report_id = r.id
@@ -386,7 +386,7 @@ app.get('/api/report', (req, res) => {
 
 // Endpoint to get all reports with totals
 app.get('/api/report/all', (req, res) => {
-  const query = `SELECT r.id, r.created_at,
+  const query = `SELECT r.id, r.police_report, r.created_at,
                         COALESCE(SUM(ri.quantity * ri.cost), 0) AS total
                    FROM reports r
                    LEFT JOIN report_items ri ON ri.report_id = r.id
