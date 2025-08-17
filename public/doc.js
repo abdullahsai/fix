@@ -16,6 +16,7 @@ async function loadReports() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${rep.id}</td>
+            <td>${rep.police_report || ''}</td>
             <td>${rep.total.toFixed(2)}</td>
             <td>${new Date(rep.created_at).toLocaleDateString('en-GB')}</td>
             <td>
