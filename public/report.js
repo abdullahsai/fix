@@ -438,11 +438,12 @@ async function downloadPdf(id) {
     doc.setLineWidth(0.200025);
     y += 5;
 
-    const colWTotal = 40;
-    const colWUnit = 30;
-    const colWCost = 30;
-    const colWQty = 30;
-    const colWDesc = 70;
+    // Resize item table columns to provide more space for the description.
+    const colWTotal = 28; // 30% smaller
+    const colWUnit = 27; // 10% smaller
+    const colWCost = 24; // 20% smaller
+    const colWQty = 21; // 30% smaller
+    const colWDesc = 100; // gains width from the other columns
     const tableW = colWTotal + colWUnit + colWCost + colWQty + colWDesc;
     const itemStartX = (doc.internal.pageSize.getWidth() - tableW) / 2;
 
