@@ -438,13 +438,14 @@ async function downloadPdf(id) {
     doc.setLineWidth(0.200025);
     y += 5;
 
-    // Resize item table columns to provide more space for the description.
-    const colWTotal = 28; // 30% smaller
-    const colWUnit = 27; // 10% smaller
-    const colWCost = 24; // 20% smaller
-    const colWQty = 21; // 30% smaller
-    const colWDesc = 100; // gains width from the other columns
-    const tableW = colWTotal + colWUnit + colWCost + colWQty + colWDesc;
+    // Resize item table columns: make quantity, cost, unit and total 5% smaller
+    // and give the released space to the description column.
+    const tableW = 200;
+    const colWTotal = 28 * 0.95; // 5% smaller
+    const colWUnit = 27 * 0.95; // 5% smaller
+    const colWCost = 24 * 0.95; // 5% smaller
+    const colWQty = 21 * 0.95; // 5% smaller
+    const colWDesc = tableW - (colWTotal + colWUnit + colWCost + colWQty);
     const itemStartX = (doc.internal.pageSize.getWidth() - tableW) / 2;
 
     function drawItemRow(desc, qty, cost, unit, total) {
